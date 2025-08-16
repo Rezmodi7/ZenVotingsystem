@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>ZenVoting</title>
-    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
-        button { margin: 5px; padding: 10px 20px; font-size: 16px; }
-        .proposal { margin: 10px 0; padding: 10px; background: #fff; border-radius: 8px; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>ZenVoting</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script type="module" src="./script.js"></script>
 </head>
 <body>
-    <h1>🗳️ ZenVoting System</h1>
-    <button onclick="connectWallet()">Connect Wallet</button>
-    <div id="wallet-address"></div>
-    <hr>
-    <h2>Proposals</h2>
-    <div id="proposals"></div>
-    <div id="status" style="margin-top: 20px; font-weight: bold;"></div>
+  <div class="container">
+    <h1 class="title">🗳️ ZenVoting Dashboard</h1>
 
-    <script src="script.js"></script>
+    <button id="connectWallet" class="btn">Connect Wallet</button>
+    <p id="walletAddress" class="status">Not connected</p>
+
+    <div class="card">
+      <h2>Proposal Preview</h2>
+      <button id="getProposal" class="btn small">Load Proposal #0</button>
+      <pre id="proposalDetails" class="output"></pre>
+    </div>
+  </div>
 </body>
 </html>
