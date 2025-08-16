@@ -3,19 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zen Proposal Voting</title>
-<link rel="stylesheet" href="style.css">
-<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+<title>ZenProposal System</title>
+<script src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"></script>
+<script type="module" src="./script.js"></script>
+<style>
+body { font-family: Arial, sans-serif; margin: 20px; }
+input, textarea, select { display: block; margin: 5px 0; padding: 5px; width: 300px; }
+button { padding: 7px 15px; margin: 10px 0; cursor: pointer; }
+.proposal { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
+.comment { margin-left: 20px; font-size: 0.9em; color: #555; }
+h1,h2,h3,h4 { margin: 5px 0; }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Zen Proposal Voting</h1>
-    <button id="connectWallet" class="btn">Connect Wallet</button>
-    <p id="walletAddress"></p>
-    <button id="getProposal" class="btn">Get Proposals</button>
-    <div id="proposalDetails" class="proposals"></div>
-  </div>
 
-  <script type="module" src="script.js"></script>
+<h1>ZenProposal System</h1>
+<button id="connectWallet">Connect Wallet</button>
+<div id="walletAddress"></div>
+
+<hr>
+
+<section id="newProposalSection">
+  <h2>Create New Proposal</h2>
+  <input type="text" id="proposalName" placeholder="Title" />
+  <textarea id="proposalDescription" placeholder="Description"></textarea>
+  <select id="proposalFormType">
+    <option value="0">General</option>
+    <option value="1">Cultural</option>
+    <option value="2">Environmental</option>
+    <option value="3">Survey</option>
+    <option value="4">ZenBuilder</option>
+    <option value="5">ZenQuest</option>
+    <option value="6">ZenSupport</option>
+    <option value="7">ZenEvent</option>
+    <option value="8">ZenCollab</option>
+    <option value="9">ZenEducation</option>
+    <option value="10">ZenMarketing</option>
+  </select>
+  <input type="text" id="proposalExtraData" placeholder="Extra Data (links, etc.)" />
+  <button id="submitProposal">Submit Proposal</button>
+</section>
+
+<hr>
+
+<section id="proposalsSection">
+  <h2>Proposals</h2>
+  <div id="proposalsContainer"></div>
+</section>
+
 </body>
 </html>
