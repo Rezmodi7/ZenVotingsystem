@@ -1,85 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Simple Voting DApp</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>ZenVoting</title>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <style>
-        /* Basic styles */
-        body { 
-            font-family: sans-serif; 
-            padding: 20px; 
-            text-align: center; 
-            background-color: #f4f4f9; 
-            color: #333;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        button { 
-            padding: 12px 24px; 
-            margin: 5px; 
-            font-size: 16px; 
-            cursor: pointer;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        #voting-area { 
-            margin-top: 20px; 
-        }
-        .proposal-card { 
-            border: 1px solid #ccc; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border-radius: 8px;
-            background-color: #ecf0f1;
-        }
-        .results { 
-            margin-top: 30px; 
-        }
-
-        /* Responsive styles for smaller screens */
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            button {
-                width: 100%;
-            }
-        }
+        body { font-family: sans-serif; padding: 20px; background: #f0f0f0; }
+        button { margin: 5px; padding: 10px 20px; font-size: 16px; }
+        .proposal { margin: 10px 0; padding: 10px; background: #fff; border-radius: 8px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Simple Voting DApp</h1>
-        <button id="connectWallet">Connect Wallet</button>
+    <h1>🗳️ ZenVoting System</h1>
+    <button onclick="connectWallet()">Connect Wallet</button>
+    <div id="wallet-address"></div>
+    <hr>
+    <h2>Proposals</h2>
+    <div id="proposals"></div>
+    <div id="status" style="margin-top: 20px; font-weight: bold;"></div>
 
-        <div id="voting-area" style="display:none;">
-            <p>Connected Address: <span id="userAddress"></span></p>
-            <h2>Cast Your Vote</h2>
-            <div id="proposals-list"></div>
-        </div>
-
-        <div class="results">
-            <h2>Voting Results</h2>
-            <div id="results-list"></div>
-        </div>
-    </div>
-
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.esm.min.js"></script>
-    <script type="module" src="./script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
