@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Voting DApp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { font-family: sans-serif; padding: 20px; text-align: center; }
+        button { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+        #voting-area { margin-top: 20px; }
+        .proposal-card { border: 1px solid #ccc; padding: 10px; margin: 10px; border-radius: 8px; }
+        .results { margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h1>Simple Voting DApp</h1>
+    <button id="connectWallet">Connect Wallet</button>
+    
+    <div id="voting-area" style="display:none;">
+        <p>Connected Address: <span id="userAddress"></span></p>
+        <h2>Cast Your Vote</h2>
+        <div id="proposals-list"></div>
+    </div>
+
+    <div class="results">
+        <h2>Voting Results</h2>
+        <div id="results-list"></div>
+    </div>
+
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.esm.min.js"></script>
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
