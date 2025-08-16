@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>MetaMask Connection Test</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zen Proposal Voting</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
 </head>
 <body>
-  <h2>Connect to MetaMask</h2>
-  <button id="connectWallet">Connect Wallet</button>
-  <p id="status"></p>
+  <div class="container">
+    <h1>Zen Proposal Voting</h1>
+    <button id="connectWallet" class="btn">Connect Wallet</button>
+    <p id="walletAddress"></p>
+    <button id="getProposal" class="btn">Get Proposals</button>
+    <div id="proposalDetails" class="proposals"></div>
+  </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
