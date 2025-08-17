@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZenChain Proposals</title>
-<script src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"></script>
-<script type="module" src="./app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZenChain Proposals</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </head>
 <body>
-<h1>ZenChain Proposals</h1>
-<button id="connectWallet">Connect Wallet</button>
-<p id="walletAddress"></p>
+    <header>
+        <h1>ZenChain Proposal System</h1>
+        <button id="connectWalletBtn">Connect Wallet</button>
+    </header>
 
-<hr>
-<h2>Create Proposal</h2>
-<input type="text" id="proposalName" placeholder="Name">
-<input type="text" id="proposalDescription" placeholder="Description">
-<input type="text" id="proposalExtra" placeholder="Extra Data">
-<select id="proposalFormType">
-  <option value="0">General</option>
-  <option value="1">Cultural</option>
-  <option value="2">Environmental</option>
-  <option value="3">Survey</option>
-  <option value="4">ZenBuilder</option>
-  <option value="5">ZenQuest</option>
-  <option value="6">ZenSupport</option>
-  <option value="7">ZenEvent</option>
-  <option value="8">ZenCollab</option>
-  <option value="9">ZenEducation</option>
-  <option value="10">ZenMarketing</option>
-</select>
-<button id="createProposal">Submit Proposal</button>
+    <main>
+        <section id="createProposalSection">
+            <h2>Create Proposal</h2>
+            <input type="text" id="proposalName" placeholder="Proposal Name">
+            <textarea id="proposalDescription" placeholder="Description"></textarea>
+            <input type="text" id="proposalExtra" placeholder="Extra Data">
+            <select id="proposalFormType">
+                <option value="0">Type 0</option>
+                <option value="1">Type 1</option>
+            </select>
+            <button id="createProposalBtn">Create Proposal</button>
+        </section>
 
-<hr>
-<h2>Get Proposal</h2>
-<input type="number" id="proposalIndex" placeholder="Proposal Index">
-<button id="getProposal">Get Proposal</button>
-<pre id="proposalDetails"></pre>
+        <section id="proposalsSection">
+            <h2>Latest Proposals</h2>
+            <div id="proposalsContainer"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
