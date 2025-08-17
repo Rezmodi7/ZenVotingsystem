@@ -1,11 +1,10 @@
 import { abi } from './abi.js';
 
-const contractAddress = "0x59edC219E3D17DeA0c11ea78B55be3950A920f27";
+const contractAddress = "0x574587378b381aBbc44296092BCCB9C5780356ca";
 let web3;
 let contract;
 let accounts;
 
-// Connect wallet
 document.getElementById("connectWallet").onclick = async () => {
   if (window.ethereum) {
     try {
@@ -24,23 +23,6 @@ document.getElementById("connectWallet").onclick = async () => {
   }
 };
 
-// Get proposal details
-document.getElementById("getProposal").onclick = async () => {
-  if (!contract) return alert("Connect your wallet first.");
-  try {
-    const proposalIndex = parseInt(document.getElementById("proposalIndex").value);
-    if (isNaN(proposalIndex)) return alert("Enter a valid proposal index.");
-    
-    const proposal = await contract.methods.proposals(proposalIndex).call();  // FIXED
-    document.getElementById("proposalDetails").innerText = JSON.stringify(proposal, null, 2);
-    console.log("Proposal details:", proposal);
-  } catch (err) {
-    console.error("Failed to get proposal:", err);
-    alert(`Failed to load proposal. See console for details.`);
-  }
-};
-
-// Create new proposal
 document.getElementById("createProposal").onclick = async () => {
   if (!contract) return alert("Connect your wallet first.");
   
@@ -52,8 +34,7 @@ document.getElementById("createProposal").onclick = async () => {
   if (!name || !description || isNaN(formType)) return alert("Fill all fields correctly.");
   
   try {
-    const tx = await contract.methods
-      .createProposal(name, description, formType, extraData)   // FIXED order
+    const tx = await contract.methods.createProposal(name, description, extraData, formType)
       .send({ from: accounts[0] });
     
     console.log("Transaction success:", tx);
@@ -62,11 +43,24 @@ document.getElementById("createProposal").onclick = async () => {
     console.error("Transaction failed:", err);
     if (err?.data) {
       const reason = Object.values(err.data)[0]?.reason;
-      if (reason) {
-        alert(`Transaction failed: ${reason}`);
-        return;
-      }
+      if (reason) alert(`Transaction failed: ${reason}`);
+      return;
     }
     alert("Transaction failed. See console for details.");
+  }
+};
+
+document.getElementById("getProposal").onclick = async () => {
+  if (!contract) return alert("Connect your wallet first.");
+  try {
+    const proposalIndex = parseInt(document.getElementById("proposalIndex").value);
+    if (isNaN(proposalIndex)) return alert("Enter a valid proposal index.");
+    
+    const proposal = await contract.methods.getProposalDetails(proposalIndex).call();
+    document.getElementById("proposalDetails").innerText = JSON.stringify(proposal, null, 2);
+    console.log("Proposal details:", proposal);
+  } catch (err) {
+    console.error("Failed to get proposal:", err);
+    alert("Failed to load proposal.");
   }
 };
