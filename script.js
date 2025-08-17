@@ -1,6 +1,5 @@
-// ==== CONFIGURATION ====
 const contractAddress = "0x8965c62ed33d90f3e16a277Cb1b86435A0Db355A";
-const contractABI = [
+export const abi = [
 	{
 		"inputs": [],
 		"stateMutability": "nonpayable",
@@ -773,174 +772,85 @@ const contractABI = [
 let provider;
 let signer;
 let contract;
-let userAddress;
 
-// ==== CONNECT WALLET ====
+const connectWalletBtn = document.getElementById("connectWalletBtn");
+const createProposalBtn = document.getElementById("createProposalBtn");
+const proposalsContainer = document.getElementById("proposalsContainer");
+
 async function connectWallet() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            provider = new ethers.providers.Web3Provider(window.ethereum);
-            signer = provider.getSigner();
-            userAddress = await signer.getAddress();
-            contract = new ethers.Contract(contractAddress, contractABI, signer);
-            console.log("Wallet connected:", userAddress);
-            document.getElementById("walletAddress").innerText = userAddress;
-            loadLatestProposals();
-        } catch (err) {
-            console.error(err);
-        }
+    if(window.ethereum) {
+        provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = await provider.getSigner();
+        contract = new ethers.Contract(contractAddress, contractABI, signer);
+        connectWalletBtn.textContent = "Wallet Connected";
+        loadProposals();
     } else {
-        alert("Please install MetaMask!");
+        alert("MetaMask not detected!");
     }
 }
 
-// ==== INITIALIZE PROPOSALS ====
-async function initializeProposals() {
-    try {
-        const tx = await contract.initializeProposals();
-        await tx.wait();
-        alert("Proposals initialized!");
-        loadLatestProposals();
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== LOAD LATEST PROPOSALS ====
-async function loadLatestProposals(limit = 10) {
-    try {
-        const proposals = await contract.getLatestProposals(limit);
-        const container = document.getElementById("proposalsContainer");
-        container.innerHTML = "";
-        proposals.forEach((p, index) => {
-            const div = document.createElement("div");
-            div.classList.add("proposal");
-            div.innerHTML = `
-                <h3>${p.name}</h3>
-                <p>${p.description}</p>
-                <p>Votes: ${p.voteCount} | Likes: ${p.likeCount} | Comments: ${p.commentCount}</p>
-                <button onclick="likeProposal(${index})">Like</button>
-                <button onclick="voteProposal(${index})">Vote</button>
-                <button onclick="showComments(${index})">Comments</button>
-            `;
-            container.appendChild(div);
-        });
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== CREATE NEW PROPOSAL ====
 async function createProposal() {
     const name = document.getElementById("proposalName").value;
-    const description = document.getElementById("proposalDesc").value;
-    const extraData = document.getElementById("proposalExtra").value;
-    const formTypeId = parseInt(document.getElementById("proposalFormType").value);
+    const description = document.getElementById("proposalDescription").value;
+    const extra = document.getElementById("proposalExtra").value;
+    const formType = parseInt(document.getElementById("proposalFormType").value);
+
+    if(!name) return alert("Enter a name");
 
     try {
-        const tx = await contract.createProposal(name, description, extraData, formTypeId);
+        const tx = await contract.createProposal(name, description, extra, formType);
         await tx.wait();
         alert("Proposal created!");
-        loadLatestProposals();
-    } catch (err) {
-        console.error(err);
+        loadProposals();
+    } catch(e) {
+        console.error(e);
+        alert("Error creating proposal");
     }
 }
 
-// ==== LIKE PROPOSAL ====
+async function loadProposals() {
+    proposalsContainer.innerHTML = "Loading...";
+    try {
+        const proposals = await contract.getLatestProposals(10);
+        proposalsContainer.innerHTML = "";
+        proposals.forEach((p, index) => {
+            const card = document.createElement("div");
+            card.classList.add("proposalCard");
+            card.innerHTML = `
+                <div class="proposalHeader">
+                    <h3>${p.name}</h3>
+                    <div class="proposalActions">
+                        <button onclick="likeProposal(${index})">Like (${p.likeCount})</button>
+                        <button onclick="voteProposal(${index})">Vote (${p.voteCount})</button>
+                    </div>
+                </div>
+                <p>${p.description}</p>
+                <small>Extra: ${p.extraData}</small>
+            `;
+            proposalsContainer.appendChild(card);
+        });
+    } catch(e) {
+        console.error(e);
+        proposalsContainer.innerHTML = "Error loading proposals.";
+    }
+}
+
 async function likeProposal(index) {
     try {
         const tx = await contract.likeProposal(index);
         await tx.wait();
-        alert("Liked!");
-        loadLatestProposals();
-    } catch (err) {
-        console.error(err);
-    }
+        loadProposals();
+    } catch(e) { console.error(e); }
 }
 
-// ==== VOTE PROPOSAL ====
 async function voteProposal(index) {
     try {
         const tx = await contract.vote(index);
         await tx.wait();
-        alert("Voted!");
-        loadLatestProposals();
-    } catch (err) {
-        console.error(err);
-    }
+        loadProposals();
+    } catch(e) { console.error(e); }
 }
 
-// ==== SHOW COMMENTS ====
-async function showComments(index) {
-    try {
-        const comments = await contract.getComments(index);
-        const container = document.getElementById("commentsContainer");
-        container.innerHTML = `<h4>Comments for Proposal ${index}</h4>`;
-        comments.forEach((c, idx) => {
-            const div = document.createElement("div");
-            div.innerHTML = `
-                <p><strong>${c.commenter}</strong>: ${c.text} ${c.edited ? "(edited)" : ""}</p>
-                <button onclick="editComment(${index}, ${idx})">Edit</button>
-                <button onclick="deleteComment(${index}, ${idx})">Delete</button>
-            `;
-            container.appendChild(div);
-        });
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== ADD COMMENT ====
-async function commentOnProposal() {
-    const index = parseInt(document.getElementById("commentProposalIndex").value);
-    const text = document.getElementById("commentText").value;
-    try {
-        const tx = await contract.commentOnProposal(index, text);
-        await tx.wait();
-        alert("Comment added!");
-        showComments(index);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== EDIT COMMENT ====
-async function editComment(proposalIndex, commentIndex) {
-    const newText = prompt("Enter new text:");
-    if (!newText) return;
-    try {
-        const tx = await contract.editComment(proposalIndex, commentIndex, newText);
-        await tx.wait();
-        alert("Comment edited!");
-        showComments(proposalIndex);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== DELETE COMMENT ====
-async function deleteComment(proposalIndex, commentIndex) {
-    try {
-        const tx = await contract.deleteComment(proposalIndex, commentIndex);
-        await tx.wait();
-        alert("Comment deleted!");
-        showComments(proposalIndex);
-    } catch (err) {
-        console.error(err);
-    }
-}
-
-// ==== EVENT LISTENERS ====
-document.getElementById("connectWalletBtn").addEventListener("click", connectWallet);
-document.getElementById("initializeBtn").addEventListener("click", initializeProposals);
-document.getElementById("createProposalBtn").addEventListener("click", createProposal);
-document.getElementById("addCommentBtn").addEventListener("click", commentOnProposal);
-
-// ==== AUTO LOAD IF WALLET CONNECTED ====
-window.addEventListener('load', async () => {
-    if (window.ethereum && window.ethereum.selectedAddress) {
-        await connectWallet();
-    }
-});
+connectWalletBtn.addEventListener("click", connectWallet);
+createProposalBtn.addEventListener("click", createProposal);
