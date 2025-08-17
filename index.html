@@ -1,37 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenChain Proposals</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZenVotingSystem</title>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script type="module" src="./script.js"></script>
 </head>
 <body>
-    <header>
-        <h1>ZenChain Proposal System</h1>
-        <button id="connectWalletBtn">Connect Wallet</button>
-    </header>
+  <div class="container">
+    <h1>🗳️ ZenVotingSystem</h1>
 
-    <main>
-        <section id="createProposalSection">
-            <h2>Create Proposal</h2>
-            <input type="text" id="proposalName" placeholder="Proposal Name">
-            <textarea id="proposalDescription" placeholder="Description"></textarea>
-            <input type="text" id="proposalExtra" placeholder="Extra Data">
-            <select id="proposalFormType">
-                <option value="0">Type 0</option>
-                <option value="1">Type 1</option>
-            </select>
-            <button id="createProposalBtn">Create Proposal</button>
-        </section>
+    <button id="connectWallet" class="btn">Connect Wallet</button>
 
-        <section id="proposalsSection">
-            <h2>Latest Proposals</h2>
-            <div id="proposalsContainer"></div>
-        </section>
-    </main>
+    <section class="card">
+      <h2>Create New Proposal</h2>
+      <input id="name" placeholder="Proposal Name" />
+      <input id="description" placeholder="Description" />
+      <input id="extraData" placeholder="Extra Data" />
+      <input id="formTypeId" type="number" placeholder="Form Type ID" />
+      <button id="createProposal" class="btn">Submit Proposal</button>
+    </section>
 
-    <script src="script.js"></script>
+    <section class="card">
+      <h2>View Proposal Details</h2>
+      <input id="proposalIndex" type="number" placeholder="Proposal Index" />
+      <button id="getProposal" class="btn">Get Details</button>
+      <pre id="proposalDetails"></pre>
+    </section>
+  </div>
 </body>
 </html>
