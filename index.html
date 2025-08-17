@@ -3,53 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZenProposal System</title>
+<title>ZenChain Proposals</title>
 <script src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"></script>
-<script type="module" src="./script.js"></script>
-<style>
-body { font-family: Arial, sans-serif; margin: 20px; }
-input, textarea, select { display: block; margin: 5px 0; padding: 5px; width: 300px; }
-button { padding: 7px 15px; margin: 10px 0; cursor: pointer; }
-.proposal { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #f9f9f9; }
-.comment { margin-left: 20px; font-size: 0.9em; color: #555; }
-h1,h2,h3,h4 { margin: 5px 0; }
-</style>
+<script type="module" src="./app.js"></script>
 </head>
 <body>
-
-<h1>ZenProposal System</h1>
+<h1>ZenChain Proposals</h1>
 <button id="connectWallet">Connect Wallet</button>
-<div id="walletAddress"></div>
+<p id="walletAddress"></p>
 
 <hr>
-
-<section id="newProposalSection">
-  <h2>Create New Proposal</h2>
-  <input type="text" id="proposalName" placeholder="Title" />
-  <textarea id="proposalDescription" placeholder="Description"></textarea>
-  <select id="proposalFormType">
-    <option value="0">General</option>
-    <option value="1">Cultural</option>
-    <option value="2">Environmental</option>
-    <option value="3">Survey</option>
-    <option value="4">ZenBuilder</option>
-    <option value="5">ZenQuest</option>
-    <option value="6">ZenSupport</option>
-    <option value="7">ZenEvent</option>
-    <option value="8">ZenCollab</option>
-    <option value="9">ZenEducation</option>
-    <option value="10">ZenMarketing</option>
-  </select>
-  <input type="text" id="proposalExtraData" placeholder="Extra Data (links, etc.)" />
-  <button id="submitProposal">Submit Proposal</button>
-</section>
+<h2>Create Proposal</h2>
+<input type="text" id="proposalName" placeholder="Name">
+<input type="text" id="proposalDescription" placeholder="Description">
+<input type="text" id="proposalExtra" placeholder="Extra Data">
+<select id="proposalFormType">
+  <option value="0">General</option>
+  <option value="1">Cultural</option>
+  <option value="2">Environmental</option>
+  <option value="3">Survey</option>
+  <option value="4">ZenBuilder</option>
+  <option value="5">ZenQuest</option>
+  <option value="6">ZenSupport</option>
+  <option value="7">ZenEvent</option>
+  <option value="8">ZenCollab</option>
+  <option value="9">ZenEducation</option>
+  <option value="10">ZenMarketing</option>
+</select>
+<button id="createProposal">Submit Proposal</button>
 
 <hr>
-
-<section id="proposalsSection">
-  <h2>Proposals</h2>
-  <div id="proposalsContainer"></div>
-</section>
-
-</body>
-</html>
+<h2>Get Proposal</h2>
+<input type="number" id="proposalIndex" placeholder="Proposal Index">
+<button id="getProposal">Get Proposal</button>
+<pre id="proposalDetails"></pre>
