@@ -1,44 +1,123 @@
-import { ethers } from 'https://cdn.jsdelivr.net/npm/ethers@6.7.0/+esm';
-import abi from './abi.js';
+import { abi } from './abi.js';
 
-const provider = new ethers.JsonRpcProvider('https://zenchain-testnet.api.onfinality.io/public');
 const contractAddress = '0x8965c62ed33d90f3e16a277Cb1b86435A0Db355A';
-const contract = new ethers.Contract(contractAddress, abi, provider);
+const rpcUrl = 'https://zenchain-testnet.api.onfinality.io/public';
 
-window.voteCandidate = async function () {
-  const candidateId = document.getElementById('candidateId').value;
-  const privateKey = document.getElementById('privateKey').value;
-  const statusDiv = document.getElementById('status');
+let provider;
+let signer;
+let contract;
 
-  if (!candidateId || !privateKey) {
-    statusDiv.textContent = 'Please enter both Candidate ID and Private Key.';
-    return;
-  }
+const formTypes = [
+  "General", "Cultural", "Environmental", "Survey", "ZenBuilder",
+  "ZenQuest", "ZenSupport", "ZenEvent", "ZenCollab", "ZenEducation",
+  "ZenMarketing"
+];
 
-  try {
-    const wallet = new ethers.Wallet(privateKey, provider);
-    const contractWithSigner = contract.connect(wallet);
-    const tx = await contractWithSigner.vote(candidateId);
-    await tx.wait();
-    statusDiv.textContent = 'Vote submitted successfully!';
-  } catch (error) {
-    statusDiv.textContent = 'Error submitting vote: ' + error.message;
+window.onload = () => {
+  const select = document.getElementById('formType');
+  formTypes.forEach((type, index) => {
+    const option = document.createElement('option');
+    option.value = index;
+    option.textContent = type;
+    select.appendChild(option);
+  });
+};
+
+document.getElementById('connectWallet').onclick = async () => {
+  if (window.ethereum) {
+    try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await provider.getSigner();
+      contract = new ethers.Contract(contractAddress, abi, signer);
+      alert('Wallet connected ✅');
+    } catch (err) {
+      console.error('Wallet connection failed:', err);
+      alert('❌ Failed to connect wallet');
+    }
+  } else {
+    alert('MetaMask not detected');
   }
 };
 
-window.getVoteCount = async function () {
-  const candidateId = document.getElementById('candidateId').value;
-  const statusDiv = document.getElementById('status');
+document.getElementById('createProposal').onclick = async () => {
+  if (!contract) {
+    alert('Please connect your wallet first');
+    return;
+  }
 
-  if (!candidateId) {
-    statusDiv.textContent = 'Please enter Candidate ID.';
+  const name = document.getElementById('name').value;
+  const description = document.getElementById('description').value;
+  const extraData = document.getElementById('extraData').value;
+  const formType = parseInt(document.getElementById('formType').value);
+
+  if (!name || !description || isNaN(formType)) {
+    alert('Please fill in all fields');
     return;
   }
 
   try {
-    const votes = await contract.getVoteCount(candidateId);
-    statusDiv.textContent = `Candidate ${candidateId} has ${votes.toString()} votes.`;
-  } catch (error) {
-    statusDiv.textContent = 'Error fetching vote count: ' + error.message;
+    const tx = await contract.createProposal(name, description, extraData, formType);
+    await tx.wait();
+    alert('✅ Proposal submitted');
+  } catch (err) {
+    console.error(err);
+    alert('❌ Error submitting proposal');
+  }
+};
+
+document.getElementById('loadProposals').onclick = async () => {
+  if (!contract) {
+    alert('Please connect your wallet first');
+    return;
+  }
+
+  try {
+    const count = await contract.getProposalCount();
+    const container = document.getElementById('proposalList');
+    container.innerHTML = '';
+
+    for (let i = 0; i < count; i++) {
+      const proposal = await contract.getProposalDetails(i);
+      const div = document.createElement('div');
+      div.className = 'proposal-card';
+      div.innerHTML = `
+        <h3>${proposal.name}</h3>
+        <p><strong>Description:</strong> ${proposal.description}</p>
+        <p><strong>Extra:</strong> ${proposal.extraData}</p>
+        <p><strong>Form Type:</strong> ${formTypes[proposal.formType]}</p>
+        <p><strong>Votes:</strong> ${proposal.voteCount}</p>
+        <p><strong>Likes:</strong> ${proposal.likeCount}</p>
+        <p><strong>Comments:</strong> ${proposal.commentCount}</p>
+        <button onclick="voteProposal(${i})">Vote</button>
+        <button onclick="likeProposal(${i})">Like</button>
+      `;
+      container.appendChild(div);
+    }
+  } catch (err) {
+    console.error(err);
+    alert('❌ Error loading proposals');
+  }
+};
+
+window.voteProposal = async (index) => {
+  try {
+    const tx = await contract.vote(index);
+    await tx.wait();
+    alert(`✅ Voted on proposal ${index}`);
+  } catch (err) {
+    console.error(err);
+    alert('❌ Error voting');
+  }
+};
+
+window.likeProposal = async (index) => {
+  try {
+    const tx = await contract.likeProposal(index);
+    await tx.wait();
+    alert(`👍 Liked proposal ${index}`);
+  } catch (err) {
+    console.error(err);
+    alert('❌ Error liking proposal');
   }
 };
