@@ -1,36 +1,55 @@
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+  font-family: Vazir, sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
+  direction: rtl;
 }
 
-.container {
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-input {
-  display: block;
-  margin: 10px 0;
-  padding: 10px;
-  width: 100%;
-  font-size: 16px;
+h1 {
+  text-align: center;
+  color: #333;
 }
 
 button {
   padding: 10px 20px;
-  margin-top: 10px;
-  font-size: 16px;
+  margin: 10px 0;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
   cursor: pointer;
 }
 
-#status {
-  margin-top: 20px;
-  font-weight: bold;
-  color: #333;
+button:hover {
+  background-color: #45a049;
+}
+
+.form-section, .load-section {
+  margin: 20px 0;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+.proposal-card {
+  background-color: #e0f7fa;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 6px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+
+.proposal-card h3 {
+  margin-top: 0;
+}
+
+.proposal-card button {
+  margin-right: 10px;
 }
