@@ -1,95 +1,36 @@
-/* Reset */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #0f3, #9cf900);
-    color: #fff;
-    min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-header {
-    padding: 20px;
-    text-align: center;
-    background-color: rgba(0,0,0,0.3);
-    backdrop-filter: blur(10px);
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-header h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
+input {
+  display: block;
+  margin: 10px 0;
+  padding: 10px;
+  width: 100%;
+  font-size: 16px;
 }
 
 button {
-    cursor: pointer;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    background: #9cf900;
-    color: #000;
-    font-weight: bold;
-    transition: all 0.3s ease;
+  padding: 10px 20px;
+  margin-top: 10px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-button:hover {
-    transform: scale(1.05);
-    background: #aaff33;
-}
-
-main {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-}
-
-section {
-    background: rgba(0,0,0,0.3);
-    padding: 20px;
-    border-radius: 12px;
-    backdrop-filter: blur(8px);
-    animation: fadeIn 1s ease;
-}
-
-input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-}
-
-#proposalsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.proposalCard {
-    background: rgba(255,255,255,0.1);
-    padding: 15px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.proposalCard:hover {
-    background: rgba(255,255,255,0.2);
-    transform: translateY(-3px);
-}
-
-.proposalHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.proposalActions button {
-    margin-left: 10px;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px);}
-    to { opacity: 1; transform: translateY(0);}
+#status {
+  margin-top: 20px;
+  font-weight: bold;
+  color: #333;
 }
