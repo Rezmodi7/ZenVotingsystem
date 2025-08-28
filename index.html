@@ -1,23 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZenChain Voting</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Zen Proposal System</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>ZenChain Voting System</h1>
+  <h1>سیستم پیشنهادات Zen</h1>
 
-    <input type="number" id="candidateId" placeholder="Candidate ID" />
-    <input type="text" id="privateKey" placeholder="Your Private Key" />
-    <button onclick="voteCandidate()">Vote</button>
+  <button id="connectWallet">اتصال کیف پول</button>
 
-    <button onclick="getVoteCount()">Get Vote Count</button>
-    <div id="status"></div>
+  <div class="form-section">
+    <input type="text" id="name" placeholder="عنوان پیشنهاد">
+    <textarea id="description" placeholder="توضیحات"></textarea>
+    <input type="text" id="extraData" placeholder="اطلاعات اضافی">
+    <select id="formType"></select>
+    <button id="createProposal">ثبت پیشنهاد</button>
   </div>
 
+  <div class="load-section">
+    <button id="loadProposals">بارگذاری پیشنهادها</button>
+    <div id="proposalList"></div>
+  </div>
+
+  <script src="https://cdn.ethers.io/lib/ethers-6.0.0.min.js"></script>
   <script type="module" src="script.js"></script>
 </body>
 </html>
