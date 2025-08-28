@@ -1,73 +1,44 @@
-import { abi } from './abi.js';
+import { ethers } from 'https://cdn.jsdelivr.net/npm/ethers@6.7.0/+esm';
+import abi from './abi.js';
 
+const provider = new ethers.JsonRpcProvider('https://zenchain-testnet.api.onfinality.io/public');
 const contractAddress = '0x8965c62ed33d90f3e16a277Cb1b86435A0Db355A';
-let contract;
+const contract = new ethers.Contract(contractAddress, abi, provider);
 
-const formTypes = [
-  "General", "Cultural", "Environmental", "Survey", "ZenBuilder",
-  "ZenQuest", "ZenSupport", "ZenEvent", "ZenCollab", "ZenEducation",
-  "ZenMarketing"
-];
+window.voteCandidate = async function () {
+  const candidateId = document.getElementById('candidateId').value;
+  const privateKey = document.getElementById('privateKey').value;
+  const statusDiv = document.getElementById('status');
 
-window.onload = () => {
-  const select = document.getElementById('formType');
-  formTypes.forEach((type, index) => {
-    const option = document.createElement('option');
-    option.value = index;
-    option.textContent = type;
-    select.appendChild(option);
-  });
-};
-
-document.getElementById('connectWallet').onclick = async () => {
-  if (window.ethereum) {
-    await window.ethereum.request({ method: 'eth_requestAccounts' });
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    contract = new ethers.Contract(contractAddress, abi, signer);
-    alert('Wallet connected ✅');
-  } else {
-    alert('Please install MetaMask!');
+  if (!candidateId || !privateKey) {
+    statusDiv.textContent = 'Please enter both Candidate ID and Private Key.';
+    return;
   }
-};
-
-document.getElementById('createProposal').onclick = async () => {
-  const name = document.getElementById('name').value;
-  const description = document.getElementById('description').value;
-  const extraData = document.getElementById('extraData').value;
-  const formType = parseInt(document.getElementById('formType').value);
 
   try {
-    const tx = await contract.createProposal(name, description, extraData, formType);
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contractWithSigner = contract.connect(wallet);
+    const tx = await contractWithSigner.vote(candidateId);
     await tx.wait();
-    alert('✅ Proposal submitted');
-  } catch (err) {
-    console.error(err);
-    alert('❌ Error submitting proposal');
+    statusDiv.textContent = 'Vote submitted successfully!';
+  } catch (error) {
+    statusDiv.textContent = 'Error submitting vote: ' + error.message;
   }
 };
 
-document.getElementById('loadProposals').onclick = async () => {
-  try {
-    const count = await contract.getProposalCount();
-    const container = document.getElementById('proposalList');
-    container.innerHTML = '';
+window.getVoteCount = async function () {
+  const candidateId = document.getElementById('candidateId').value;
+  const statusDiv = document.getElementById('status');
 
-    for (let i = 0; i < count; i++) {
-      const [name, description, extraData, formType] = await contract.getProposalDetails(i);
-      const div = document.createElement('div');
-      div.className = 'proposal-card';
-      div.innerHTML = `
-        <h3>${name}</h3>
-        <p><strong>Description:</strong> ${description}</p>
-        <p><strong>Extra:</strong> ${extraData}</p>
-        <p><strong>Form Type:</strong> ${formTypes[formType]}</p>
-        <hr/>
-      `;
-      container.appendChild(div);
-    }
-  } catch (err) {
-    console.error(err);
-    alert('❌ Error loading proposals');
+  if (!candidateId) {
+    statusDiv.textContent = 'Please enter Candidate ID.';
+    return;
+  }
+
+  try {
+    const votes = await contract.getVoteCount(candidateId);
+    statusDiv.textContent = `Candidate ${candidateId} has ${votes.toString()} votes.`;
+  } catch (error) {
+    statusDiv.textContent = 'Error fetching vote count: ' + error.message;
   }
 };
