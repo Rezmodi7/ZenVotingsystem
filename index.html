@@ -2,32 +2,22 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ZenProposalSystem</title>
-  <link rel="stylesheet" href="./style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
-  <script type="module" src="./script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZenChain Voting</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>🗳️ ZenProposalSystem</h1>
+    <h1>ZenChain Voting System</h1>
 
-    <button id="connectWallet" class="btn">Connect Wallet</button>
+    <input type="number" id="candidateId" placeholder="Candidate ID" />
+    <input type="text" id="privateKey" placeholder="Your Private Key" />
+    <button onclick="voteCandidate()">Vote</button>
 
-    <section class="card">
-      <h2>Create New Proposal</h2>
-      <input id="name" placeholder="Proposal Name" />
-      <input id="description" placeholder="Description" />
-      <input id="extraData" placeholder="Extra Data" />
-      <label for="formType">Form Type:</label>
-      <select id="formType"></select>
-      <button id="createProposal" class="btn">Submit Proposal</button>
-    </section>
-
-    <section class="card">
-      <h2>All Proposals</h2>
-      <button id="loadProposals" class="btn">Load Proposals</button>
-      <div id="proposalList"></div>
-    </section>
+    <button onclick="getVoteCount()">Get Vote Count</button>
+    <div id="status"></div>
   </div>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
