@@ -117,4 +117,4 @@ if (window.ethereum) {
   provider = new ethers.providers.Web3Provider(window.ethereum);
   signer = provider.getSigner();
   contract = new ethers.Contract(contractAddress, abi, signer);
-}
+  }
