@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zen Voting System</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 </head>
 <body>
   <header>
     <h1>Zen Voting System</h1>
     <button id="connectButton">Connect Wallet</button>
+    <span id="userAddress"></span>
   </header>
 
   <main>
@@ -21,8 +21,17 @@
         <textarea id="proposalDescription" placeholder="Description" required></textarea>
         <input type="text" id="extraData" placeholder="Extra Data" />
         <select id="formType">
-          <option value="0">Type A</option>
-          <option value="1">Type B</option>
+          <option value="0">General</option>
+          <option value="1">Cultural</option>
+          <option value="2">Environmental</option>
+          <option value="3">Survey</option>
+          <option value="4">ZenBuilder</option>
+          <option value="5">ZenQuest</option>
+          <option value="6">ZenSupport</option>
+          <option value="7">ZenEvent</option>
+          <option value="8">ZenCollab</option>
+          <option value="9">ZenEducation</option>
+          <option value="10">ZenMarketing</option>
         </select>
         <button type="submit">Submit Proposal</button>
       </form>
@@ -36,4 +45,4 @@
 
   <script type="module" src="script.js"></script>
 </body>
-</html>
+        </html>
