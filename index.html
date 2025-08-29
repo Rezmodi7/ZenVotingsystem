@@ -1,33 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>ZenChain Proposal</title>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 30px;
-      background-color: #f4f4f4;
-    }
-    input, textarea, button {
-      display: block;
-      margin: 10px 0;
-      padding: 10px;
-      width: 300px;
-    }
-    button {
-      cursor: pointer;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zen Voting System</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
 </head>
 <body>
-  <h2>Create Proposal</h2>
-  <input id="name" placeholder="Proposal Name" />
-  <textarea id="description" placeholder="Description"></textarea>
-  <button id="connectWallet">Connect Wallet</button>
-  <button id="submitProposal">Submit Proposal</button>
+  <header>
+    <h1>Zen Voting System</h1>
+    <button id="connectButton">Connect Wallet</button>
+  </header>
 
-  <script src="script.js"></script>
+  <main>
+    <section>
+      <h2>Create New Proposal</h2>
+      <form id="proposalForm">
+        <input type="text" id="proposalName" placeholder="Proposal Name" required />
+        <textarea id="proposalDescription" placeholder="Description" required></textarea>
+        <input type="text" id="extraData" placeholder="Extra Data" />
+        <select id="formType">
+          <option value="0">Type A</option>
+          <option value="1">Type B</option>
+        </select>
+        <button type="submit">Submit Proposal</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Proposals</h2>
+      <div id="proposalList"></div>
+    </section>
+  </main>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
