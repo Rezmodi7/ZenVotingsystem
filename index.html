@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Zen Voting System</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- Local ethers.js -->
+  <!-- local ethers -->
   <script src="./ethers.min.js"></script>
 </head>
 <body>
   <header>
     <h1>Zen Voting System</h1>
-    <button id="connectButton">Connect Wallet</button>
+    <div>
+      <button id="connectButton">Connect Wallet</button>
+      <span id="status" style="margin-left:12px"></span>
+    </div>
   </header>
 
   <main>
     <section>
       <h2>Create New Proposal</h2>
       <form id="proposalForm">
-        <input type="text" id="proposalName" placeholder="Proposal Name" required />
+        <input id="proposalName" type="text" placeholder="Proposal Name" required />
         <textarea id="proposalDescription" placeholder="Description" required></textarea>
-        <input type="text" id="extraData" placeholder="Extra Data" />
+        <input id="extraData" type="text" placeholder="Extra Data (optional)" />
         <select id="formType">
           <option value="0">General</option>
           <option value="1">Cultural</option>
@@ -44,6 +47,7 @@
     </section>
   </main>
 
-  <script type="module" src="script.js"></script>
+  <!-- main script (module) -->
+  <script type="module" src="./script.js"></script>
 </body>
 </html>
