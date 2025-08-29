@@ -1,4 +1,4 @@
-const contractAddress = "0xYourContractAddressHere"; // آدرس قرارداد هوشمند
+const contractAddress = "0x8965c62ed33d90f3e16a277Cb1b86435A0Db355A"; // آدرس قرارداد هوشمند
 const abi = [
   {
 		"inputs": [],
