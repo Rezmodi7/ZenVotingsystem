@@ -1,120 +1,70 @@
-// script.js
-import { abi } from "./abi.js";
+import { ZenProposalSystemABI } from "./abi.js";
 
+const contractAddress = "0xd5d8440f5c4f0d97f6Dcc837207F78bf08801e38"; // Your deployed contract
 let provider;
 let signer;
 let contract;
-
-const contractAddress = "0x8965c62ed33d90f3e16a277Cb1b86435A0Db355A"; // آدرس کانترکت ZenProposalSystem
 
 const connectButton = document.getElementById("connectButton");
 const proposalForm = document.getElementById("proposalForm");
 const proposalList = document.getElementById("proposalList");
 
-// --- Connect Wallet ---
 async function connectWallet() {
-  if (!window.ethereum) {
-    alert("MetaMask is not installed. Please install it to use this app.");
-    return;
-  }
-
   try {
+    if (!window.ethereum) throw new Error("MetaMask is not installed");
     await window.ethereum.request({ method: "eth_requestAccounts" });
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
-    contract = new ethers.Contract(contractAddress, abi, signer);
-
-    connectButton.innerText = "Wallet Connected";
-    connectButton.disabled = true;
-
+    contract = new ethers.Contract(contractAddress, ZenProposalSystemABI, signer);
+    connectButton.textContent = "Connected";
     loadProposals();
-  } catch (error) {
-    console.error(error);
-    alert("Failed to connect wallet.");
+  } catch (err) {
+    console.error("Failed to connect MetaMask:", err);
+    alert("Failed to connect MetaMask: " + err.message);
   }
 }
 
 connectButton.addEventListener("click", connectWallet);
 
-// --- Create Proposal ---
 proposalForm.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (!contract) return alert("Connect wallet first");
 
-  const name = document.getElementById("proposalName").value.trim();
-  const description = document.getElementById("proposalDescription").value.trim();
-  const extraData = document.getElementById("extraData").value.trim();
+  const name = document.getElementById("proposalName").value;
+  const description = document.getElementById("proposalDescription").value;
+  const extraData = document.getElementById("extraData").value;
   const formType = parseInt(document.getElementById("formType").value);
-
-  if (!name || !description) {
-    alert("Please enter both name and description.");
-    return;
-  }
 
   try {
     const tx = await contract.createProposal(name, description, extraData, formType);
     await tx.wait();
-    alert("Proposal created successfully!");
-    proposalForm.reset();
+    alert("Proposal created successfully");
     loadProposals();
   } catch (err) {
     console.error(err);
-    alert("Failed to create proposal.");
+    alert("Error creating proposal: " + err.message);
   }
 });
 
-// --- Load Proposals ---
 async function loadProposals() {
+  if (!contract) return;
   proposalList.innerHTML = "";
-
   try {
-    const proposals = await contract.getLatestProposals(10); // آخرین 10 پروپوزال
-    proposals.forEach((p, index) => {
+    const count = await contract.getProposalCount();
+    for (let i = 0; i < count; i++) {
+      const p = await contract.getProposalDetails(i);
       const div = document.createElement("div");
-      div.className = "proposal";
       div.innerHTML = `
-        <h3>${p.name}</h3>
-        <p>${p.description}</p>
-        <p>Type: ${p.formType}</p>
-        <p>Votes: ${p.voteCount} | Likes: ${p.likeCount} | Comments: ${p.commentCount}</p>
-        <button onclick="vote(${index})">Vote</button>
-        <button onclick="like(${index})">Like</button>
+        <h3>${p[0]}</h3>
+        <p>${p[1]}</p>
+        <p>Type: ${p[2]}</p>
+        <p>Votes: ${p[4]}</p>
+        <p>Likes: ${p[7]}</p>
+        <hr/>
       `;
       proposalList.appendChild(div);
-    });
+    }
   } catch (err) {
     console.error(err);
   }
 }
-
-// --- Vote ---
-window.vote = async (index) => {
-  try {
-    const tx = await contract.vote(index);
-    await tx.wait();
-    alert("Voted successfully!");
-    loadProposals();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to vote. Maybe you already voted.");
-  }
-};
-
-// --- Like ---
-window.like = async (index) => {
-  try {
-    const tx = await contract.likeProposal(index);
-    await tx.wait();
-    alert("Liked successfully!");
-    loadProposals();
-  } catch (err) {
-    console.error(err);
-    alert("Failed to like. Maybe you already liked.");
-  }
-};
-
-// --- Initial load ---
-if (window.ethereum) {
-  provider = new ethers.providers.Web3Provider(window.ethereum);
-  signer = provider.getSigner();
-  contract = new ethers.Contract(contractAddress, abi, signer);
-  }
