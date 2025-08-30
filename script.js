@@ -1,6 +1,6 @@
 import { abi } from "./abi.js";
 
-const contractAddress = "0x61A4d314221B8683284c58da679AfDd11DFAF20c"; // deployed contract
+const contractAddress = "0x36ee718054f40135BE991A6bf7695bda19FFe9E0"; // deployed contract
 let provider, signer, contract;
 
 // ----------------- Connect Wallet -----------------
