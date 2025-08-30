@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zen Voting System</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- local ethers -->
-  <script src="./ethers.min.js"></script>
+  <!-- Ethers.js -->
+  <script src="ethers.min.js"></script>
+  <!-- ABI -->
+  <script src="abi.js"></script>
 </head>
 <body>
   <header>
     <h1>Zen Voting System</h1>
-    <div>
-      <button id="connectButton">Connect Wallet</button>
-      <span id="status" style="margin-left:12px"></span>
-    </div>
+    <button id="connectButton">Connect Wallet</button>
   </header>
 
   <main>
-    <section>
+    <section class="formSection">
       <h2>Create New Proposal</h2>
       <form id="proposalForm">
-        <input id="proposalName" type="text" placeholder="Proposal Name" required />
+        <input type="text" id="proposalName" placeholder="Proposal Name" required />
         <textarea id="proposalDescription" placeholder="Description" required></textarea>
-        <input id="extraData" type="text" placeholder="Extra Data (optional)" />
+        <input type="text" id="extraData" placeholder="Extra Data" />
         <select id="formType">
           <option value="0">General</option>
           <option value="1">Cultural</option>
@@ -43,11 +42,12 @@
 
     <section>
       <h2>Proposals</h2>
+      <button id="loadButton">🔄 Refresh Proposals</button>
       <div id="proposalList"></div>
     </section>
   </main>
 
-  <!-- main script (module) -->
-  <script type="module" src="./script.js"></script>
+  <!-- Script -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
