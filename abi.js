@@ -155,19 +155,6 @@ export const abi = [
 				"internalType": "uint256",
 				"name": "proposalIndex",
 				"type": "uint256"
-			}
-		],
-		"name": "deleteProposal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "proposalIndex",
-				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
@@ -228,25 +215,6 @@ export const abi = [
 			}
 		],
 		"name": "ProposalCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "deleter",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "proposalIndex",
-				"type": "uint256"
-			}
-		],
-		"name": "ProposalDeleted",
 		"type": "event"
 	},
 	{
@@ -402,11 +370,6 @@ export const abi = [
 						"internalType": "uint256",
 						"name": "commentCount",
 						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "deleted",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct ZenProposalSystem.Proposal[]",
@@ -484,11 +447,6 @@ export const abi = [
 				"internalType": "uint256",
 				"name": "commentCount",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "deleted",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
@@ -588,11 +546,6 @@ export const abi = [
 						"internalType": "uint256",
 						"name": "commentCount",
 						"type": "uint256"
-					},
-					{
-						"internalType": "bool",
-						"name": "deleted",
-						"type": "bool"
 					}
 				],
 				"internalType": "struct ZenProposalSystem.Proposal[]",
@@ -789,11 +742,6 @@ export const abi = [
 				"internalType": "uint256",
 				"name": "commentCount",
 				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "deleted",
-				"type": "bool"
 			}
 		],
 		"stateMutability": "view",
